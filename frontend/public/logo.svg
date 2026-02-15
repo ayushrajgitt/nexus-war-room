@@ -1,0 +1,54 @@
+<svg width="220" height="220" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+
+    <!-- Metallic Gradient -->
+    <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#cccccc"/>
+      <stop offset="100%" stop-color="#888888"/>
+    </linearGradient>
+
+    <!-- Neon Gradient -->
+    <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9333EA"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+
+    <!-- Glow Effect -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+  </defs>
+
+  <!-- Triangle Border -->
+  <polygon points="100,15 180,170 20,170"
+    fill="none"
+    stroke="url(#neonGrad)"
+    stroke-width="6"
+    filter="url(#glow)"
+  />
+
+  <!-- NX Monogram Pattern -->
+
+  <!-- N -->
+  <path d="M60 140 V70 L95 140 V70"
+        stroke="url(#metalGrad)"
+        stroke-width="10"
+        fill="none"
+        stroke-linecap="round"
+  />
+
+  <!-- X -->
+  <path d="M115 75 L155 140 M155 75 L115 140"
+        stroke="url(#metalGrad)"
+        stroke-width="10"
+        stroke-linecap="round"
+  />
+
+</svg>
