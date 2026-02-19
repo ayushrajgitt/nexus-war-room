@@ -1,6 +1,8 @@
 "use client";
 
+
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const backgrounds = Array.from({ length: 18 }, (_, i) => `/bg${i + 1}.jpg`);
 
@@ -12,6 +14,8 @@ export default function Home() {
   const [bgIndex, setBgIndex] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false);
+
+  const router = useRouter(); // ✅ Added
 
   // Footer particles (safe for hydration)
   const [footerParticles, setFooterParticles] = useState<any[]>([]);
@@ -56,7 +60,7 @@ export default function Home() {
 
     setTimeout(() => {
       setLaunching(false);
-      alert("🚀 War Room Activated!");
+      router.push("/war-room"); // ✅ Redirect instead of alert
     }, 3500);
   };
 
@@ -65,13 +69,12 @@ export default function Home() {
 
       {/* Background */}
       <div
-  className="fixed inset-0 -z-30 bg-cover bg-center bg-no-repeat transition-all duration-[2000ms] ease-in-out"
-  style={{
-    backgroundImage: `url(${backgrounds[bgIndex]})`,
-    transform: `translate(${mousePos.x}px, ${mousePos.y}px) scale(1.1)`,
-  }}
-/>
-
+        className="fixed inset-0 -z-30 bg-cover bg-center bg-no-repeat transition-all duration-[2000ms] ease-in-out"
+        style={{
+          backgroundImage: `url(${backgrounds[bgIndex]})`,
+          transform: `translate(${mousePos.x}px, ${mousePos.y}px) scale(1.1)`,
+        }}
+      />
 
       <div className="absolute inset-0 -z-20 bg-gradient-to-b from-black/40 via-black/65 to-black/90" />
 
@@ -126,7 +129,7 @@ export default function Home() {
           AI agents working together inside your War Room.
         </p>
 
-        {/* SEARCH AREA (UNCHANGED) */}
+        {/* SEARCH AREA */}
         <div className={`w-full max-w-2xl mx-auto backdrop-blur-2xl bg-white/5 border border-white/15 rounded-3xl p-10 shadow-[0_20px_60px_rgba(0,0,0,0.6)] space-y-8 transition-all duration-1000 delay-1000 ${
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
         }`}>
@@ -179,13 +182,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* PREMIUM ENTERPRISE FOOTER */}
+      {/* FOOTER — UNCHANGED */}
       <footer className="relative w-full mt-32 py-20 px-8 bg-black/70 backdrop-blur-xl border-t border-white/10">
-
-        {/* Glow Border */}
         <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 animate-pulse" />
 
-        {/* Floating Footer Particles */}
         {footerParticles.map((p, i) => (
           <span
             key={i}
@@ -201,7 +201,6 @@ export default function Home() {
         ))}
 
         <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 relative z-10">
-
           <div className="space-y-4 hover-lift">
             <h3 className="text-xl font-bold text-white">NEXUS</h3>
             <p className="text-gray-400 text-sm">
@@ -239,7 +238,6 @@ export default function Home() {
               <li>Compliance</li>
             </ul>
           </div>
-
         </div>
 
         <div className="mt-16 text-center text-gray-500 text-sm relative z-10">
@@ -248,18 +246,19 @@ export default function Home() {
       </footer>
 
       {launching && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 animate-fadeIn">
-          <div className="text-center">
-            <div className="text-6xl animate-spin-slow mb-6">🚀</div>
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent animate-pulse">
-              Launching War Room...
-            </h2>
-            <p className="text-gray-400 mt-4 animate-fadeIn">
-              Initializing AI Agents...
-            </p>
-          </div>
-        </div>
-      )}
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black transition-all duration-1000">
+    <div className="text-center animate-pulse">
+      <div className="text-7xl mb-6 animate-spin-slow">⚡</div>
+      <h2 className="text-4xl font-bold text-white tracking-widest">
+        INITIALIZING WAR ROOM
+      </h2>
+      <p className="text-gray-400 mt-4">
+        Deploying AI Agents...
+      </p>
+    </div>
+  </div>
+)}
+
     </main>
   );
 }
