@@ -1,3 +1,3 @@
 python-dotenv
 pillow
-google-generativeai
+google-genai
