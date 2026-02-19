@@ -10,23 +10,34 @@ import AgentCard from "./components/AgentCard";
 
 export default function WarRoom() {
 
-  const [activeSection, setActiveSection] = useState("dashboard"); // ✅ INSIDE component
+  const [activeSection, setActiveSection] = useState("dashboard");
+  const [sidebarOpen, setSidebarOpen] = useState(false); // 🔥 NEW
 
   return (
-    <div className="flex h-screen bg-black text-white">
+    <div className="flex h-screen bg-black text-white overflow-hidden">
 
-      <Sidebar active={activeSection} setActive={setActiveSection} />
+      {/* Sidebar */}
+      <Sidebar
+        active={activeSection}
+        setActive={setActiveSection}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
 
-      <div className="flex-1 flex flex-col">
-        <Topbar />
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col min-w-0">
 
-        <div className="p-8 space-y-8 overflow-y-auto">
+        {/* Topbar */}
+        <Topbar setSidebarOpen={setSidebarOpen} />
+
+        {/* Content Scroll Area */}
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-8">
 
           {activeSection === "dashboard" && (
             <>
               <TerminalBoot />
 
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <StatsCard title="Active Agents" value="12" />
                 <StatsCard title="Campaign Reach" value="2.3M" />
                 <StatsCard title="Conversion Rate" value="8.7%" />
@@ -37,7 +48,7 @@ export default function WarRoom() {
           )}
 
           {activeSection === "agents" && (
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <AgentCard name="Research AI" desc="Market & competitor analysis engine" />
               <AgentCard name="Copy AI" desc="Generates high converting ad copy" />
               <AgentCard name="Design AI" desc="Creates creatives & thumbnails" />
@@ -49,6 +60,7 @@ export default function WarRoom() {
           {activeSection === "analytics" && (
             <>
               <AnalyticsChart />
+
               <div className="bg-black/40 border border-purple-500/20 rounded-xl p-6">
                 <h2 className="text-xl text-purple-400 mb-4">
                   AI Performance Insights
