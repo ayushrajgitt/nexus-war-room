@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -15,9 +14,8 @@ export default function Home() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false);
 
-  const router = useRouter(); // ✅ Added
+  const router = useRouter();
 
-  // Footer particles (safe for hydration)
   const [footerParticles, setFooterParticles] = useState<any[]>([]);
 
   useEffect(() => {
@@ -33,15 +31,14 @@ export default function Home() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 12;
-      const y = (e.clientY / window.innerHeight - 0.5) * 12;
+      const x = (e.clientX / window.innerWidth - 0.5) * 10;
+      const y = (e.clientY / window.innerHeight - 0.5) * 10;
       setMousePos({ x, y });
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Generate footer particles only on client
   useEffect(() => {
     const generated = Array.from({ length: 20 }).map(() => ({
       width: Math.random() * 4 + 2,
@@ -60,7 +57,7 @@ export default function Home() {
 
     setTimeout(() => {
       setLaunching(false);
-      router.push("/war-room"); // ✅ Redirect instead of alert
+      router.push("/war-room");
     }, 3500);
   };
 
@@ -69,195 +66,155 @@ export default function Home() {
 
       {/* Background */}
       <div
-        className="fixed inset-0 -z-30 bg-cover bg-center bg-no-repeat transition-all duration-[2000ms] ease-in-out"
+        className="fixed inset-0 -z-30 bg-cover bg-center bg-no-repeat transition-all duration-[2000ms]"
         style={{
           backgroundImage: `url(${backgrounds[bgIndex]})`,
-          transform: `translate(${mousePos.x}px, ${mousePos.y}px) scale(1.1)`,
+          transform: `translate(${mousePos.x}px, ${mousePos.y}px) scale(1.08)`,
         }}
       />
 
-      <div className="absolute inset-0 -z-20 bg-gradient-to-b from-black/40 via-black/65 to-black/90" />
+      {/* Dark overlay */}
+      <div className="absolute inset-0 -z-20 bg-gradient-to-b from-black/70 via-black/85 to-black" />
 
       {/* HERO */}
       <div className="text-center max-w-4xl">
 
+        {/* Logo + Title */}
         <div
           className={`flex items-center justify-center gap-6 mb-10 transition-all duration-1000 ${
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
           <img
             src="/logo.svg"
             alt="Nexus Logo"
-            className="w-24 h-24 hover:scale-110 transition duration-700"
+            className="w-20 h-20"
           />
 
-          <h1 className="relative text-6xl md:text-7xl font-black tracking-widest glow-pulse">
-            <span className="absolute inset-0 text-black opacity-60 translate-x-[4px] translate-y-[4px]">
-              NEXUS
-            </span>
-            <span className="bg-gradient-to-b from-purple-200 via-pink-400 to-purple-600 bg-clip-text text-transparent drop-shadow-[0_8px_20px_rgba(236,72,153,0.6)]">
-              NEXUS
-            </span>
+          <h1 className="text-6xl md:text-7xl font-bold tracking-widest bg-gradient-to-r from-purple-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">
+            NEXUS
           </h1>
         </div>
 
+        {/* Headline */}
         {mounted && (
-          <h2 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6">
-            {"AUTONOMOUS".split("").map((l, i) => (
-              <span key={i} className="letter text-white" style={{ animationDelay: `${i * 0.05}s` }}>
-                {l}
-              </span>
-            ))}
-            <br />
-            {"MARKETING ENGINE".split("").map((l, i) => (
-              <span
-                key={i}
-                className="letter bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 bg-clip-text text-transparent"
-                style={{ animationDelay: `${i * 0.05 + 0.6}s` }}
-              >
-                {l}
-              </span>
-            ))}
+          <h2 className="text-4xl md:text-5xl font-semibold mb-6 text-gray-100">
+            Autonomous Marketing Infrastructure
           </h2>
         )}
 
-        <p className={`text-gray-300 text-lg mb-14 transition-all duration-1000 delay-700 ${
-          mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-        }`}>
-          Research. Design. Write. Launch.
-          AI agents working together inside your War Room.
+        <p className="text-gray-400 text-lg mb-12 max-w-2xl mx-auto">
+          Research. Design. Write. Launch.  
+          AI agents operating inside your private War Room.
         </p>
 
-        {/* SEARCH AREA */}
-        <div className={`w-full max-w-2xl mx-auto backdrop-blur-2xl bg-white/5 border border-white/15 rounded-3xl p-10 shadow-[0_20px_60px_rgba(0,0,0,0.6)] space-y-8 transition-all duration-1000 delay-1000 ${
-          mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
-        }`}>
+        {/* FORM PANEL */}
+        <div className="w-full max-w-2xl mx-auto bg-black/60 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-10 space-y-8 shadow-[0_0_40px_rgba(168,85,247,0.15)]">
 
           <div>
-            <label className="block text-sm text-gray-300 font-semibold mb-3 tracking-wide">
+            <label className="block text-sm text-purple-400 font-semibold mb-3 tracking-wide">
               Industry / Brand
             </label>
             <input
               type="text"
-              placeholder="e.g. Sustainable Fashion, AI Startup"
+              placeholder="Sustainable Fashion, AI Startup..."
               value={industry}
               onChange={(e) => setIndustry(e.target.value)}
-              className="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-4 text-white placeholder-gray-400 italic backdrop-blur-md focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/30 transition-all duration-300"
+              className="w-full bg-black/40 border border-purple-500/20 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-300 font-semibold mb-3 tracking-wide">
+            <label className="block text-sm text-purple-400 font-semibold mb-3 tracking-wide">
               Target Audience
             </label>
             <input
               type="text"
-              placeholder="e.g. Gen-Z Creators, Tech Enthusiasts"
+              placeholder="Gen-Z Creators, SaaS Founders..."
               value={audience}
               onChange={(e) => setAudience(e.target.value)}
-              className="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-4 text-white placeholder-gray-400 italic backdrop-blur-md focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/30 transition-all duration-300"
+              className="w-full bg-black/40 border border-purple-500/20 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-300 font-semibold mb-3 tracking-wide">
+            <label className="block text-sm text-purple-400 font-semibold mb-3 tracking-wide">
               Primary Goal
             </label>
             <input
               type="text"
-              placeholder="e.g. Increase Sales, Launch Product"
+              placeholder="Increase Sales, Launch Product..."
               value={goal}
               onChange={(e) => setGoal(e.target.value)}
-              className="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-4 text-white placeholder-gray-400 italic backdrop-blur-md focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/30 transition-all duration-300"
+              className="w-full bg-black/40 border border-purple-500/20 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all"
             />
           </div>
 
           <button
             onClick={launchWarRoom}
-            className="w-full py-4 rounded-2xl bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 font-bold text-lg tracking-wide hover:scale-[1.02] hover:shadow-lg hover:shadow-pink-500/40 transition-all duration-300"
+            className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 font-semibold tracking-wide hover:scale-[1.02] transition-all shadow-lg shadow-purple-500/20"
           >
-            🚀 Launch War Room
+            Initialize War Room →
           </button>
         </div>
       </div>
 
-      {/* FOOTER — UNCHANGED */}
-      <footer className="relative w-full mt-32 py-20 px-8 bg-black/70 backdrop-blur-xl border-t border-white/10">
-        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 animate-pulse" />
+      {/* FOOTER */}
+      <footer className="relative w-full mt-32 py-20 px-8 bg-black/80 border-t border-purple-500/10">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 relative z-10 text-gray-400 text-sm">
 
-        {footerParticles.map((p, i) => (
-          <span
-            key={i}
-            className="particle"
-            style={{
-              width: `${p.width}px`,
-              height: `${p.height}px`,
-              left: `${p.left}%`,
-              animationDuration: `${p.duration}s`,
-              animationDelay: `${p.delay}s`,
-            }}
-          />
-        ))}
-
-        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 relative z-10">
-          <div className="space-y-4 hover-lift">
-            <h3 className="text-xl font-bold text-white">NEXUS</h3>
-            <p className="text-gray-400 text-sm">
-              Autonomous AI Marketing Infrastructure.
-              Built for modern enterprises.
-            </p>
+          <div>
+            <h3 className="text-white font-semibold mb-4">NEXUS</h3>
+            <p>Autonomous AI Marketing Infrastructure.</p>
           </div>
 
-          <div className="space-y-3 hover-lift">
-            <h4 className="font-semibold text-white">Product</h4>
-            <ul className="space-y-2 text-gray-400 text-sm">
+          <div>
+            <h4 className="text-white font-semibold mb-4">Product</h4>
+            <ul className="space-y-2">
               <li>War Room</li>
               <li>AI Agents</li>
               <li>Automation</li>
-              <li>Integrations</li>
             </ul>
           </div>
 
-          <div className="space-y-3 hover-lift">
-            <h4 className="font-semibold text-white">Company</h4>
-            <ul className="space-y-2 text-gray-400 text-sm">
+          <div>
+            <h4 className="text-white font-semibold mb-4">Company</h4>
+            <ul className="space-y-2">
               <li>About</li>
               <li>Careers</li>
-              <li>Blog</li>
               <li>Press</li>
             </ul>
           </div>
 
-          <div className="space-y-3 hover-lift">
-            <h4 className="font-semibold text-white">Legal</h4>
-            <ul className="space-y-2 text-gray-400 text-sm">
+          <div>
+            <h4 className="text-white font-semibold mb-4">Legal</h4>
+            <ul className="space-y-2">
               <li>Privacy</li>
               <li>Terms</li>
               <li>Security</li>
-              <li>Compliance</li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-16 text-center text-gray-500 text-sm relative z-10">
-          © {new Date().getFullYear()} Nexus Campaign Studio. All rights reserved.
+        <div className="mt-16 text-center text-gray-600 text-xs">
+          © {new Date().getFullYear()} Nexus Campaign Studio.
         </div>
       </footer>
 
+      {/* LAUNCH OVERLAY */}
       {launching && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black transition-all duration-1000">
-    <div className="text-center animate-pulse">
-      <div className="text-7xl mb-6 animate-spin-slow">⚡</div>
-      <h2 className="text-4xl font-bold text-white tracking-widest">
-        INITIALIZING WAR ROOM
-      </h2>
-      <p className="text-gray-400 mt-4">
-        Deploying AI Agents...
-      </p>
-    </div>
-  </div>
-)}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
+          <div className="text-center animate-pulse">
+            <div className="text-6xl mb-6 text-purple-500">⚡</div>
+            <h2 className="text-3xl font-semibold text-white tracking-widest">
+              INITIALIZING WAR ROOM
+            </h2>
+            <p className="text-gray-400 mt-4">
+              Deploying AI Agents...
+            </p>
+          </div>
+        </div>
+      )}
 
     </main>
   );
